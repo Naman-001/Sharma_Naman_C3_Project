@@ -60,4 +60,44 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>ORDER COST<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void calculateTotalOrderCost_should_return_correct_total_price_when_single_item_is_added(){
+        String[] selectedItems = {"Sweet corn soup"};
+        int totalOrderCost = restaurant.calculateTotalOrderCost(selectedItems);
+        assertEquals(119, totalOrderCost);
+    }
+
+    @Test
+    public void calculateTotalOrderCost_should_return_correct_total_price_when_multiple_items_are_added() {
+        //Adding one more item to menu
+        restaurant.addToMenu("Coffee",199);
+        String[] selectedItems = {"Sweet corn soup", "Vegetable lasagne", "Coffee"};
+        int totalOrderCost = restaurant.calculateTotalOrderCost(selectedItems);
+        assertEquals(119+269+199, totalOrderCost);
+    }
+
+    @Test
+    public void calculateTotalOrderCost_should_return_correct_total_price_when_multiple_items_are_added_and_then_one_item_is_removed() {
+        //Adding one more item to menu
+        restaurant.addToMenu("Coffee",199);
+        String[] selectedItems = {"Sweet corn soup", "Vegetable lasagne", "Coffee"};
+        int totalOrderCost = restaurant.calculateTotalOrderCost(selectedItems);
+        assertEquals(119+269+199, totalOrderCost);
+
+        //Removing 'Sweet corn soup' from selected items
+        String[] newSelectedItems = {"Vegetable lasagne", "Coffee"};
+        totalOrderCost = restaurant.calculateTotalOrderCost(newSelectedItems);
+        assertEquals(269+199, totalOrderCost);
+    }
+
+    @Test
+    public void calculateTotalOrderCost_should_return_zero_total_price_when_no_item_is_selected() {
+        String[] selectedItems = {};
+        int totalOrderCost = restaurant.calculateTotalOrderCost(selectedItems);
+        assertEquals(0, totalOrderCost);
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<ORDER COST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 }
